@@ -1,0 +1,28 @@
+@media only screen and (max-width: 1023px) {
+	body {		background-color: #e9ebee;	    font-family: 'Roboto',sans-serif !important;	    top: 0px !important;  margin-top: 0px;      padding: 0px;      margin:2px;}
+	header {      height: auto;      margin: 0;      padding: 0;    }
+    
+    .action-component {clear: both;}
+ 	.navbar-fixed-top {
+		margin-bottom: 20px;
+	}
+	 
+	.modal-content {width: 100%;}
+	.navbar-fixed-top {position: relative;}
+
+    #posts-block > .tab-content{
+        min-height: 0px;
+    }
+
+    .sc-site-points{
+        margin-top:20px!important;
+    }
+  
+    span.round-tab {
+        font-size: 16px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+    
+}

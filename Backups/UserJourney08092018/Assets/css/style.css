@@ -1,0 +1,101 @@
+.userImg {
+    border-radius: 50%;
+  }
+
+  .displayInline {
+    display: inline-block;
+  }
+
+  .modal-body {
+    padding: 15px 45px !important;
+  }
+  @media (max-width: 575.98px) { 
+    .modal-body {
+      padding: 15px 15px !important;
+    }
+   }
+
+  .secondaryColor {
+    color: #777;
+  }
+
+  .pl-1 {
+    padding-left: 1rem;
+  }
+
+  .text-light {
+    color: #fff;
+  }
+
+  .imageStyle {
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 170px;
+    border-radius: 10px;
+    text-align: -webkit-center;
+    /* display: table-cell; */
+    vertical-align: bottom;
+    -webkit-box-shadow: 0 0 58px 3px #555 inset;
+    -moz-box-shadow: 0 0 1px 3px #000 inset;
+    box-shadow: 0 0 58px 3px #555 inset;
+  }
+
+
+  .commonPadding {
+    padding: 8px;
+  }
+
+  .overlay {
+    position: absolute;
+    /* top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+    height: 100%;
+    margin: -28px -25px 0;
+    width: 100%;
+    opacity: 0;
+    transition: .1s ease;
+
+
+    
+  }
+  .overlay:before{
+    /* font-family: 'Glyphicons Halflings'; */
+    /* content: "\e089"; */
+    font-family: "Ionicons";
+    content: "\f2bb";
+    font-size: 25px;
+    color: #fff;
+    float: right;
+    margin-top: 35px;
+
+    
+  }
+
+
+  .faded {
+    opacity: 0.6;
+  }
+
+  .opaque {
+    opacity: 1;
+  }
+  /* .imageStyle:hover .overlay {
+    opacity: 1;
+  } */
+
+  .imgSelected {
+    height: 50px;
+    width: 50px;
+    float: right;
+    padding-right: 12px;
+    margin-top: 5px;
+  }
+.topicName
+  {
+    bottom: 0;
+    padding: 10px;
+    position: absolute;
+  }

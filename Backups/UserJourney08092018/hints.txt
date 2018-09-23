@@ -1,0 +1,23 @@
+user
+-------
+user id
+action type
+
+topics
+---------
+
+
+load json
+
+
+user.json
+
+stringify 
+will print in json forat from server
+
+<div style="display: inline-block;">
+                <img src="Assets/images/img_avatar.png" alt="Avatar" style="width:30px">
+                <h5>Towfeeque</h5>
+            
+            <button type="button" class="btn btn-default">Follow</button>
+        </div>

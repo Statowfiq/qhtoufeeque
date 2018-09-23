@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Donate Question</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="Assets/js/dontequestion.js"></script>
+    <style>
+        /* intro page */
+        .beginQuiz {
+            padding: 8px 44px;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* quiz */
+        .privew {
+            margin-bottom: 20px;
+        }
+
+        .questionsBox {
+            display: block;
+            border: solid 1px #e3e3e3;
+            padding: 10px 20px 0px;
+            box-shadow: inset 0 0 30px rgba(000, 000, 000, 0.1), inset 0 0 4px rgba(255, 255, 255, 1);
+            border-radius: 3px;
+            margin: 0 10px;
+        }
+
+        .questions {
+            background: #007fbe;
+            color: #FFF;
+            font-size: 22px;
+            padding: 8px 30px;
+            font-weight: 300;
+            margin: 0 -30px 10px;
+            position: relative;
+        }
+
+        .questions:after {
+            background: url(../img/icon.png) no-repeat left 0;
+            display: block;
+            position: absolute;
+            top: 100%;
+            width: 9px;
+            height: 7px;
+            content: '.';
+            left: 0;
+            text-align: left;
+            font-size: 0;
+        }
+
+        .questions:after {
+            left: auto;
+            right: 0;
+            background-position: -10px 0;
+        }
+
+        .questions:before,
+        .questions:after {
+            background: black;
+            display: block;
+            position: absolute;
+            top: 100%;
+            width: 9px;
+            height: 7px;
+            content: '.';
+            left: 0;
+            text-align: left;
+            font-size: 0;
+        }
+
+        .answerList {
+            margin-bottom: 15px;
+        }
+
+
+        ol,
+        ul {
+            list-style: none;
+        }
+
+        .answerList li:first-child {
+            border-top-width: 0;
+        }
+
+        .answerList li {
+            padding: 3px 0;
+        }
+
+        .answerList label {
+            display: block;
+            padding: 6px;
+            border-radius: 6px;
+            border: solid 1px #dde7e8;
+            font-weight: 400;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+
+        input[type=checkbox],
+        input[type=radio] {
+            margin: 4px 0 0;
+            margin-top: 1px;
+            line-height: normal;
+        }
+
+        .questionsRow {
+            background: #dee3e6;
+            margin: 0 -20px;
+            padding: 10px 20px;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .quizbutton,
+        .greyButton {
+            background-color: #f2f2f2;
+            color: #888888;
+            display: inline-block;
+            border: solid 3px #cccccc;
+            vertical-align: middle;
+            text-shadow: 0 1px 0 #ffffff;
+            line-height: 27px;
+            min-width: 160px;
+            text-align: center;
+            padding: 5px 20px;
+            text-decoration: none;
+            border-radius: 0px;
+            text-transform: capitalize;
+        }
+
+        .questionsRow span {
+            float: right;
+            display: inline-block;
+            line-height: 30px;
+            border: solid 1px #aeb9c0;
+            padding: 0 10px;
+            background: #FFF;
+            color: #007fbe;
+        }
+        .navbar {
+            border-radius: 0px !important;
+        }
+    </style>
+
+</head>
+
+<body style="background-color:#f5f5f5;">
+        <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                     Queshub Quiz
+                    </a>
+                  </div>
+                </div>
+              </nav>
+    <div class="container" id="intro" style="margin-top:8%;">
+        <div class="row">
+            <div class="col-xs-12" style="border:1px solid grey;">
+                <h2 class="text-center">You Can Test Your HTML Skills With</h2>
+                <h4 class="text-center">HTML Queshub.</h4>
+                <p class="text-center">In This Teat have 20 questions and there is no Have time limit.</p>
+                <p class="text-center">The test is not official, it's just a nice way to see how much you know, or
+                    don't know, about HTML.</p>
+                <p class="text-center">You will get 1 point for each correct answer. At the end of the Quiz, your total
+                    score will be displayed. Maximum score is 20 points.</p>
+                <h4 class="text-center">Good Luck</h4>
+                <!-- <button class="">START QUIZ</button> -->
+                <div class="col-md-12 center-block">
+                    <button id="startQuiz" name="" class="btn btn-primary center-block beginQuiz">Start Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid" id="MCQ" style="display:none;">
+        <!-- <p>
+                Total Questions: 40 
+
+                Total Failed: 10 
+                
+                Total Remaining : 20 
+                
+                Total Skipped: 10 
+                
+                Status : In Progress 
+
+        </p>
+            
+        <div class="privew" >
+                <div class="questionsBox">
+                    <div class="questions">Which of the following is correct about data-keyboard Data attribute of Modal Plugin?</div>
+                    <ul class="answerList">
+                        <li>
+                            <label>
+                                <input type="radio" name="answerGroup" value="0" id="answerGroup_0"> It specifies static for a backdrop, if you don't want the modal to be closed when the user clicks outside of the modal.</label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="answerGroup" value="1" id="answerGroup_1"> It closes the modal when escape key is pressed; set to false to disable.</label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="answerGroup" value="2" id="answerGroup_2"> It shows the modal when initialized.</label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="answerGroup" value="3" id="answerGroup_3"> Using the jQuery .load method, injects content into the modal body. If an href with a valid URL is added, it will load that content.</label>
+                        </li>
+                    </ul>
+                    <div class="questionsRow"><a href="#" class="button" id="nextquestions">Submit</a> <a href="#" class="button" id="skipquestions">Skip</a><span>2 of 20</span></div>
+                </div>
+        </div> -->
+    </div>
+    <script>
+        var quizhtml =null;
+        var id = 0;
+        var options = {};
+        var attempt = false;
+        var input;
+        // var questionJSON = null;
+        var questionJSON = {
+            "id": "1",
+            "title": "this is question title",
+            "options": ["answr 1", "answr 2", "answr 3", "answr 4"],
+            "correctOption": "1", 
+            "hint": "answer hint",
+            "status": "success",
+            "result": "30",
+            "total": "40",
+            "passed": "20",
+            "failed": "10",
+            "skipped": "10",
+        };
+
+       
+      
+        $(document).on('click', '#startQuiz', function () { // onQuiz start button press
+            $('#intro').css('display', 'none');
+            input = {
+                "id": "0",
+                "option": [],
+                "attempt": "true"
+            };
+            getQuestionData(input);
+        });
+
+        function displayData(qnJSON) { // dynamically appends quiz data
+            
+            quizhtml = null;
+            quizhtml = '<div id="subContainer">'
+            quizhtml += '<p>Total Questions: ' + qnJSON.total + ' Total Failed: ' + qnJSON.failed + '  Total Remaining :' + 10 + '  Total Skipped: ' + qnJSON.skipped + ' Status : In Progress </p>';
+            quizhtml += '<div class="privew" >';
+            quizhtml += '<div class="questionsBox">';
+            quizhtml += '<div class="questions">' + qnJSON.title + '</div>';
+            quizhtml += '<ul class="answerList">';
+            for(i=0; i<qnJSON.options.length;i++){
+                quizhtml += '<li><label><input type="radio" name="answerGroup" value="'+i+'" id="answerGroup_'+i+'">' + qnJSON.options[i] + '</label> </li>';
+
+            }
+            quizhtml +='</ul>';
+            // quizhtml += '<li><label><input type="radio" name="answerGroup" value="0" id="answerGroup_0">' + qnJSON.options[0] + '</label> </li>';
+            // quizhtml += '<li><label><input type="radio" name="answerGroup" value="1" id="answerGroup_1"> ' + qnJSON.options[1] + '</label></li>';
+            
+            // quizhtml += '<li><label><input type="radio" name="answerGroup" value="2" id="answerGroup_2">' + qnJSON.options[2] + '</label></li>';
+
+            // quizhtml += '<li><label><input type="radio" name="answerGroup" value="3" id="answerGroup_3"> ' + qnJSON.options[3] + '</label></li></ul>';
+            quizhtml += '<div class="questionsRow"><button type="button" class="btn btn-primary" id="nextquestions" >Submit</button> <button type="button" class="btn btn-default" id="skipquestions">Skip</button><span>' + 10 + ' of ' + qnJSON.total + '</span></div></div></div>';
+
+            $('#MCQ').append(quizhtml);
+            $('#MCQ').css('display', 'block');
+        }
+
+        $(document).on('click', '#nextquestions', function () { // onSubmit button click
+            if($('input[name=answerGroup]:checked').val() == questionJSON.correctOption){
+                swal({
+                    title: "Good job!",
+                    text: "success",
+                    icon: "success",
+                    button: "Next Question",    
+                    }).then(function() {
+                        getNextQuestion();
+                });
+            }else{
+                swal({
+                    title: "Tough luck!",
+                    text: "failed",
+                    icon: "error",
+                    button: "Next Question", 
+                    }).then(function() {
+                        getNextQuestion();
+                });
+            }
+            
+
+           
+            
+
+        });
+
+        function getQuestionData(input) {
+            console.log(JSON.stringify(input))
+           /* $.ajax({
+                type: "POST",
+                url: "http://rest-service.guides.spring.io/greeting",
+                // The key needs to match your method's input parameter (case-sensitive).
+                data: JSON.stringify(input),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert(data);*/
+                    //questionJSON = data;
+                    questionJSON = {
+                            "id": "1",
+                            "title": "this is question title",
+                            "options": ["answr 1", "answr 2", "answr 3", "answr 4"],
+                            "correctOption": "1", 
+                            "hint": "answer hint",
+                            "status": "success",
+                            "result": "30",
+                            "total": "40",
+                            "passed": "20",
+                            "failed": "10",
+                            "skipped": "10",
+                        };
+                    displayData(questionJSON);
+              /*  },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });*/
+        }
+
+        function getNextQuestion(){
+        $('#subContainer').remove();
+            id = questionJSON.id;
+            options = $('input[name=answerGroup]:checked').val();
+            attempt = true;
+            input = {
+                "id": id,
+                "option": options,
+                "attempt": attempt
+
+            };
+            
+            
+            getQuestionData(input);
+        }
+        $(document).on('click', '#skipquestions', function () { //skip question 
+            $('#subContainer').remove();
+            id = questionJSON.id;
+            attempt = false;
+            input = {
+                "id": id,
+                "option": [],      //check
+                "attempt": attempt
+
+            };           
+            getQuestionData(input);
+        });
+
+       
+    </script>
+</body>
+
+</html>

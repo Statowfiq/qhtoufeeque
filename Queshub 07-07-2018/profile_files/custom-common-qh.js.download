@@ -1,0 +1,38 @@
+$(document).ready(function(){
+
+
+
+/*ajax call when user upvote or thanks an answer */
+ //var ansDescTemp = [];
+// $('.ans-act-btn').click(function () {
+// 	 	console.log('ans-act called');
+// 	 	var arr = this.id.split('#');
+// 	 	console.log('arr: ' + arr); 
+// 	 	var fname;
+// 	 	if ($(this).text().indexOf('Upvote') != '-1' ){ fname='upvote';}
+// 	 	if ($(this).text().indexOf('Thanks') != '-1' ){ fname='thanks';}
+// 	 	
+// 	 	var cnt = $(this).html().trim().split('&nbsp;')[1];
+// 	 	console.log('cnt: ' + cnt);
+// 	 	if (! isValidUser()) {
+// 	 		return openLoginModal();
+// 	 	} 
+// 	 	else {
+// 		 		var status = $(this).html().indexOf('strong') != -1? true:false;
+// 		 		if (fname == 'upvote'){if (status){$(this).html('&nbsp;'+(+cnt - 1) +'&nbsp;Upvote');
+// 		 		} else {$(this).html('&nbsp;'+(+cnt + 1) +'&nbsp;'+'<strong>Upvote</strong>'); }} 
+// 
+// 		 		else if (fname == 'thanks'){if (status){$(this).html('&nbsp;'+(+cnt - 1) +'&nbsp;Thanks');
+// 				} else {	$(this).html('&nbsp;'+(+cnt + 1) +'&nbsp;'+'<strong>Thanks</strong>');  }} 
+// 		 			 		
+// 	 		} //end else	
+// 	 		
+// 	 		$.post("/post/ans/action/plusminus/ajax",
+// 	 			    {aid:arr[0], pid:arr[1],  an:fname, status:status},
+// 	 			 	   function(data, status){
+// 	 			    	console.log('status:' + status)
+// 	 			});
+// });//end ans-act
+
+
+});//end ready function

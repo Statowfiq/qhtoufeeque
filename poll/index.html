@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>POLL</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://unpkg.com/ionicons@4.4.2/dist/css/ionicons.min.css" rel="stylesheet">
+
+  <style>
+    .removeField:before{
+      font-family: "Ionicons";
+      content: "\f2c0";
+    }
+  .removeField{
+    font-size: 18px;
+      padding: 5px;
+      padding-left: 15px;
+      margin-right: 10px;
+      color: grey;
+      cursor: pointer;
+  }
+  .flexDisplay{
+    display: flex;
+    display: -ms-flexbox; /* IE10 */
+  }
+
+  /*for poll widget */
+  .zeroMb{
+    margin-bottom: 0px;
+  }
+  .txt-grey{
+    color:grey;
+  }
+  /* .pollActnBtn:hover{
+    color: black;
+    font-size: 15px;
+    background-color: white;
+    border: 1px solid;
+  } */
+
+
+.myradio{
+  margin-left: 20px;
+}
+.myradio label, .myradio input {
+    display:block;
+    top:7px;
+    left:0;
+    right:0;
+    bottom:0;
+}
+/* .myradio input[type="radio"]:checked + label {
+    background-color:yellow;
+} */
+
+.myradio label {
+     padding:5px;
+     border:1px solid #CCC; 
+     cursor:pointer;
+    z-index:90;
+}
+
+.myradio label:hover {
+     background:#DDD;
+}
+.mb-10px{
+  margin-bottom: 10px;
+}
+/*poll status modal*/
+
+   .txtBlue{
+    color: #4854af;
+  }
+  .customHeader{
+    padding: 10px !important;
+    border: 0;
+  }
+
+  /* snackbar css */
+  #snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 30px;
+    padding: 12px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+/*vote result progress*/
+.progress{
+  margin-bottom:0 !important;
+}
+
+</style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Modal Example</h2>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pollModal">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="pollModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <form class="form">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Create poll</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group" style="margin-right:40px;">
+                <label for="Title">Title</label>
+                <input type="text" class="form-control" id="pollTitle" placeholder="Enter the title">
+              </div>
+              <div class="form-group">
+                <label for="Options">Options</label>
+                <div class="flexDisplay">
+                  <input type="text" class="form-control" id="pollOption1" placeholder="Enter the option1">
+                  <label class="removeField" id="removePollOption1"></label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="flexDisplay">
+                  <input type="text" class="form-control" id="pollOption2" placeholder="Enter the option2">
+                  <label class="removeField" id="removePollOption2"></label>
+                </div>
+              </div>
+              <div id="pollMoreOptions">
+
+              </div>
+
+              <a href="#" id="addPollOption">+ Add Option</a>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="postPoll">Post</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- snackbar -->
+  <div id="snackbar"></div>
+
+  <div class="container">
+    <div class="col-xs-12 col-sm-5 col-sm-offset-7" id="displayPoll" style="border:1px solid #d2d2d2;">
+      <!-- <div > -->
+
+        <!-- <h4 class="zeroMb">How&apos;s the market of SAP Hybris in Middle East</h4>
+        <small class="txt-grey">09/19/2018 11:51:12PM</small> -->
+        <!-- <div class="form-group">
+          <button type="button" class="btn pollActnBtn" style="width:100%">Better than US</button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn pollActnBtn" style="width:100%">Not better than US</button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn pollActnBtn" style="width:100%">Same like US</button>
+        </div> -->
+
+        <!-- <div class="radio myradio">
+          <label><input type="radio" name="radioOpt">Better than US</label>
+        </div>
+        <div class="radio myradio">
+          <label><input type="radio" name="radioOpt">Not better than US</label>
+        </div>
+        <div class="radio myradio">
+          <label><input type="radio" name="radioOpt">Same like US</label>
+        </div>
+
+        <button type="button" class="btn pull-right mb-10px" id="vote">Vote!</button> -->
+      <!-- </div> -->
+      
+    </div>
+    <div class="col-xs-12 col-sm-5 col-sm-offset-7" id="showVoteResult">
+     
+      </div>
+  </div>
+
+
+
+
+  <script>
+
+    var counter = 3;
+    var myPollData;
+    var pollId;
+    $(document).on('click', '#addPollOption', function () {  // Add more option textbox
+      if (counter > 5) {
+        //alert("Only 2 textboxes allow");
+        return false;
+      }
+
+      var moreOptionsection = '<div class="form-group">';
+      moreOptionsection += '<div class="flexDisplay">';
+      moreOptionsection += '<input type="text" id="pollOption' + counter + '" class="form-control" value="" placeholder="Enter the option' + counter + '" >';
+      moreOptionsection += '<label class="removeField" id="removePollOption' + counter + '"></label> </div></div>';
+
+      $("#pollMoreOptions").append(moreOptionsection);
+      counter++;
+    });
+    $(document).on("click", ".removeField", function (e) { //user click on remove field
+      console.log(this.id);
+      $('#' + this.id).parent('div').remove();
+
+    });
+
+    $(document).on('click', '#postPoll', function () {  // Add more option textbox
+      var pollReq;
+      var validatePollInputs = validationPollFields();
+
+      if (validatePollInputs) {
+        var pollTitle = $('#pollTitle').val();
+        var pollOption1 = $('#pollOption1').val();
+        var pollOption2 = $('#pollOption2').val();
+        var pollOption3 = $('#pollOption3').val();
+        var pollOption4 = $('#pollOption4').val();
+        var pollOption5 = $('#pollOption5').val();
+        pollReq = {
+          "title": pollTitle,
+          "options": [pollOption1, pollOption2, pollOption3, pollOption4, pollOption5],
+        }
+        console.log(JSON.stringify(pollReq));
+        postPollData(pollReq);
+        $('#pollModal').modal('hide');
+
+      }
+
+    });
+
+    function validationPollFields() {   //form field validations
+      var pollTitle = $('#pollTitle').val();
+      var pollOption1 = $('#pollOption1').val();
+      var pollOption2 = $('#pollOption2').val();
+      var pollOption3 = $('#pollOption3').val();
+      var pollOption4 = $('#pollOption4').val();
+      var pollOption5 = $('#pollOption5').val();
+
+      if (pollTitle == "" && pollOption1 == "") {
+        alert("All the fields are mandatory.");
+        return false;
+      }
+      if (pollOption1 == "") {
+        alert("Option1 cannot be empty");
+        return false;
+      }
+      if (pollOption2 == "") {
+        alert("Option2 cannot be empty");
+        return false;
+      }
+      if (pollOption3 == "") {
+        alert("Option3 cannot be empty");
+        return false;
+      }
+      if (pollOption4 == "") {
+        alert("Option4 cannot be empty");
+        return false;
+      }
+      if (pollOption5 == "") {
+        alert("Option5 cannot be empty");
+        return false;
+      }
+      return true;
+    }
+
+    function postPollData(pollReq) {
+      console.log(JSON.stringify(pollReq));
+
+      /* $.ajax({
+       type: "POST",
+       url: "/webservices/PodcastService.asmx/CreateMarkers",
+       // The key needs to match your method's input parameter (case-sensitive).
+       data: JSON.stringify(pollReq),
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       success: function (data) {  */
+      // alert(data); 
+      //myPollData = data;
+      myPollData = {
+        "id": "121311414",
+        "title": "poll's title",
+        "options": ["option1", "option2", "option3", "option4"],
+        "status": "true",
+        "messageTitle": "ThankYou!",
+        "message": "You have successfully posted a poll",
+        "creationTime": "09-20-2018 12:35:01"
+      }
+      pollId = myPollData.id;
+      showPoll(myPollData);
+      showPollSnackbar();
+
+      /*     },
+       failure: function (errMsg) {
+           alert(errMsg);
+       }
+   });   */
+    }
+
+
+    console.log(myPollData);
+    function showPoll(myPollData) {
+      var myPollDataTitle = myPollData.title.replace(/\'/g, '&apos;');
+
+      var myPollhtml = '<h4 class="zeroMb">' + myPollDataTitle + '</h4>';
+      myPollhtml += '<small class="txt-grey">' + myPollData.creationTime + '</small>';
+      for (i = 0; i < myPollData.options.length; i++) {
+        myPollhtml += '<div class="radio myradio"><label><input type="radio" name="radioVoteOpt" value="pollOption' + (i + 1) + '" class="pollingOptionCls" id="pollingOption' + (i + 1) + '">' + myPollData.options[i] + '</label></div>';
+      }
+      myPollhtml += '<button type="button" class="btn pull-right mb-10px" id="vote">Vote!</button>';
+      $('#displayPoll').append(myPollhtml);
+
+      // var pollStat = '<h1 class="text-center txtBlue">' + myPollData.messageTitle + '</h1><p class="text-center">' + myPollData.message + '</p>';
+      var pollStat = myPollData.message;
+      $('#snackbar').append(pollStat);
+    }
+
+   
+    $(document).on('click', '#vote', function () {
+      var voteOptionSelected = $('input[name=radioVoteOpt]:checked').val();
+      alert(voteOptionSelected);
+        voteOptionSelected = voteOptionSelected.replace("pollOption", "");
+        var pollVoteData = {
+          "id": pollId,
+          "option": voteOptionSelected
+        };
+        postVotedData(pollVoteData);
+      
+
+    });
+
+
+
+    function postVotedData(pollVoteData) {
+      // console.log(JSON.stringify(pollVoteData));
+
+      /* $.ajax({
+      type: "POST",
+      url: "/webservices/PodcastService.asmx/CreateMarkers",
+      // The key needs to match your method's input parameter (case-sensitive).
+      data: JSON.stringify(pollVoteData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (data) {   */
+      // alert(data); 
+     var  data = {
+        "id": "121311414",
+        "title": "poll's title",
+        "options": [{"optionId": "option1", "vote": "30", "optionName":"Better than US"},{"optionId": "option2", "vote": "40", "optionName":"not than US"},{"optionId": "option3", "vote": "80","optionName":"same like US"},{"optionId": "option4", "vote": "10", "optionName":"none"}] ,
+        "status": "true",
+        "creationTime": "09-23-2018 07:39:01",
+        "updateTime": "09-23-2018 07:41:01"
+      }
+      console.log(JSON.stringify(data));
+      $('#displayPoll').remove();
+      voteResultFn(data);
+      /*     },
+       failure: function (errMsg) {
+           alert(errMsg);
+       }
+   });   */
+    }
+
+    function voteResultFn(data){
+      var voteResultHtml = '';
+       voteResultHtml += '<h4 class="zeroMb">' + data.title + '</h4>';
+      voteResultHtml += '<small class="txt-grey">' + data.creationTime + '</small>';
+      for (i=0;i<data.options.length;i++){
+       voteResultHtml += '<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="'+data.options[i].vote+'" aria-valuemin="0" aria-valuemax="100" style="width:'+data.options[i].vote+'%">'+data.options[i].vote+'%</div></div>';
+       voteResultHtml+= '<div>'+data.options[i].vote+'% '+data.options[i].optionName+' </div>';
+      }
+      $('#showVoteResult').append(voteResultHtml);
+    }
+
+
+
+    function showPollSnackbar() {
+      var x = document.getElementById("snackbar");
+      x.className = "show";
+      setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+
+  </script>
+</body>
+
+</html>

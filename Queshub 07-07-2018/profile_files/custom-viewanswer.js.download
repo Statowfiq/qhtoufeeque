@@ -1,0 +1,30 @@
+$(document).ready(function() {
+//	 ajax call when user click to view answers for a post
+//	 $('.post-ans-view').click(function () {
+//	 console.log('post-ans-view calledd');
+//	 var id = this.id;
+//	 var pid = id.split('_')[1];
+//	 console.log('pid: ' + pid);
+//	 var isValidUser = $('#ivu').text();
+//	 var status = $('#comment-block-'+pid).text().indexOf('Upvote') != '-1'?
+//	 true:false;
+//	 if (! isValidUser()) {
+//	 return openLoginModal();
+//	 } else {
+//	 if (!status){
+//	 $.get("/post/get/answers/ajax",
+//	 { pid: pid},
+//	 function(data, status){
+//	 console.log('status: ' + status);
+//	 $('#comment-block-'+pid).show();
+//	 $('#comment-block-'+pid).html(data);
+//	 });
+//	 } else {
+//	 $('#comment-block-'+pid).toggle();
+//	 }
+//	 }
+//	 });
+
+});
+
+

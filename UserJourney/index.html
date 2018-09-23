@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>user</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour.min.js"></script>
+  <link href="https://unpkg.com/ionicons@4.4.2/dist/css/ionicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="Assets/css/style.css">
+  <!-- <link rel="stylesheet" href="Assets/css/global.css"> -->
+  <script src="Assets/js/script.js"></script>
+  <style>
+  </style>
+</head>
+
+<body data-newUser="true">
+
+  <!-- <div class="container">
+    <h2>topics Modal</h2>
+   
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myTopics">Open Small Modal</button> -->
+
+  <!-- Follow user Modal -->
+  <div class="modal fade" id="myTopics" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4 class="modal-title">Select at least 3 topics to follow</h4>
+        </div>
+        <div class="modal-body" id="topicsBody" style="height:400px;overflow-y: scroll;">
+          <div class="container-fluid">
+            <div class="row" id="imageDiv">
+              <!-- <div class="col-md-3 commonPadding" id='check'>
+                  <div id="imageContainer" class="imageStyle">
+                    <p class="text-light"> DIY and home improvements</p>
+                    <div id="overlayContainer" class="overlay">
+                      <img class="imgSelected" src='https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Tick_Mark_Dark-512.png' />
+
+                    </div>
+                  </div>
+                </div> -->
+
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal-footer">
+          <!-- <button type="button" id="skipTopicModal" class="btn btn-default" data-dismiss="modal">Skip</button> -->
+          <button type="button" id="topicSubmit" class="btn btn-primary pull-right" data-dismiss="modal" disabled>Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- </div> -->
+
+  <!-- <div class="container">
+    <h2>user Modal</h2>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#userModal">Open Small Modal</button> -->
+
+  <!-- Follow user Modal -->
+  <div class="modal fade" id="userModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4 class="modal-title">Select at least 3 users to follow</h4>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- <div>
+              <img src="Assets/images/img_avatar.png" alt="Avatar" style="width:30px" class="displayInline">
+              <h4 class="displayInline secondaryColor pl-1">Towfeeque</h4>
+              <button type="button" class="btn btn-default displayInline pull-right">Follow</button>
+            </div>
+            <div>
+              <img src="Assets/images/img_avatar.png" alt="Avatar" style="width:30px" class="displayInline">
+              <h4 class="displayInline secondaryColor pl-1">Towfeeque</h4>
+              <button type="button" class="btn btn-default displayInline pull-right">Follow</button>
+            </div>
+            <div>
+              <img src="Assets/images/img_avatar.png" alt="Avatar" style="width:30px" class="displayInline">
+              <h4 class="displayInline secondaryColor pl-1">Towfeeque</h4>
+              <button type="button" class="btn btn-default displayInline pull-right">Follow</button>
+            </div> -->
+
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" id="skipUser" class="btn btn-default" data-dismiss="modal">Skip</button> -->
+          <button type="button" id="userSubmit" class="btn btn-primary pull-right" data-dismiss="modal" disabled >Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- <button class="btn btn-transparent manage-widget" data-toggle="modal" data-target="#dynamicModal" style="border: 1px solid grey;">Manage Widgets</button> -->
+
+  <div class="modal fade in" id="dynamicModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    style="padding-right: 15px;">
+
+    <div class="dynamic-modal-dialog  modal-dialog modal-lg">
+
+      <div class="modal-content">
+
+        <div class="icon  ion-close-round pull-right" data-dismiss="modal" style="padding:10px; border: 0px solid;" aria-hidden="true"
+          title="Click to close"></div>
+
+        <h4 id="dynamic-modal-header" class="modal-header">
+            Select at least widgets to follow
+        </h4>
+
+        <div id="dynamic-modal-status" class="txt-success"> </div>
+
+        <div id="dynamic-modal-body" class="modal-body">
+          <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+
+              <h4 class="panel-header">Trending Posts</h4>
+
+              <div class="card-widget">
+
+                <img class="card-img-top" src="Assets/images/trending-post.png" height="150" width="150">
+
+                <div class="card-footer">
+
+                  <span class="float-right">
+                    <button data-status="true" data-id="12" class="btn btn-default btn-success follow-widget">Following</button>
+                  </span>
+
+                  <span>
+                    <i class=""></i>7k+ Following </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+
+              <h4 class="panel-header">Recent Hybris Jobs</h4>
+
+              <div class="card-widget">
+
+                <img class="card-img-top" src="Assets/images/recent-job.png" height="150" width="150">
+
+                <div class="card-footer">
+
+                  <span class="float-right">
+                    <button data-status="true" data-id="19" class="btn btn-default btn-success follow-widget">Following</button>
+                  </span>
+
+                  <span>
+                    <i class=""></i>10+ Views </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+
+              <h4 class="panel-header">Hybris Quiz Scheduler</h4>
+
+              <div class="card-widget">
+
+                <img class="card-img-top" src="Assets/images/hybris-quiz.png" height="150" width="150">
+
+                <div class="card-footer">
+
+                  <span class="float-right">
+                    <button data-status="true" data-id="44" class="btn btn-default btn-success follow-widget">Following</button>
+                  </span>
+
+                  <span>
+                    <i class=""></i>2k+ Following</span>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+
+              <h4 class="panel-header">Instant File Convertor </h4>
+
+              <div class="card-widget">
+
+                <img class="card-img-top" src="Assets/images/file-convert.png" height="150" width="150">
+
+                <div class="card-footer">
+
+                  <span class="float-right">
+                    <button data-status="false" data-id="108" class="btn btn-default follow-widget">Follow</button>
+                  </span>
+
+                  <span>
+                    <i class=""></i>8k+ Following</span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+            
+            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Finish</button>
+          </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 
+  </div> -->
+  <script>
+    // $(function () {
+    //   // Instance the tour
+    //   var tour = new Tour({
+    //     steps: [
+    //       {
+    //         element: "#my-element",
+    //         title: "Title of my step",
+    //         content: "Content of my step"
+    //       },
+    //       {
+    //         element: "#my-other-element",
+    //         title: "Title of my step",
+    //         content: "Content of my step"
+    //       }
+    //     ]
+    //   });
+
+    //   // Initialize the tour
+    //   tour.init();
+    //   // start tour
+    //   $('#clickme').click(function () {
+    //     tour.restart();
+    //   });
+
+    // });
+  </script>
+</body>
+
+</html>

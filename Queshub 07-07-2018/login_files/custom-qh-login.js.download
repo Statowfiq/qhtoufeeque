@@ -1,0 +1,233 @@
+var locd=false;
+$(document).ready(function(){
+if(!locd) {
+console.log('calling geoip');
+$.ajax({
+           url: "https://geoip-db.com/jsonp",
+           jsonpCallback: "callback",
+           dataType: "jsonp",
+           cache: true,
+           success: function( location ) {
+            getFormDataAndReturnForAjaxCall("/user/locale/setting", location);  			// set data
+           }         
+});  
+} 
+$(function(){
+				$('body').on('click', 'button[type="submit"]', function(e) { 
+	            	console.log('button pressed: ' + $(this).text());
+	                //e.preventDefault();
+	               if($(this).text().indexOf('Register') != -1 ) {
+	               		e.preventDefault();
+	                	if($('#username').val() == null || $('#passwordfield').val() == null) return;
+	                	 if( !validateEmail($('#username').val()) ) { $(".stats-msg").html($('#msg-wrng-eml').html());	  return;  }
+	                
+	                	if ( $('#regst-plc').is(":checked") )  { 
+	                	$(this).html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Please wait');   
+
+        				toggleWaitModal(); // open message modal
+        				$.ajaxSetup({  headers: { 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content') }  });
+	     	            $.post("/user/register",
+							{ "uid": "", email: $('#username').val(), pwd: $('#passwordfield').val()},
+				   		 	 function(data, status){
+				   		 	 console.log('data: ' + data);
+				   		 	 if (data == 'true'){
+				   		 	 	$('#status-msg').html('<span class="success">You have successfully registered, please login now</span>');
+				   		 	 	$('.login').html('Login');
+				   		 	 } else {
+				   		 	 	$('#status-msg').html('<span class="error">* Please try different email id</span>');
+				   		 	 	$('.login').html('Register');				   		 	 	
+				   		 	 }
+				   		 	 toggleMsgModal('#waitModal');								
+						 });  	
+					  } else {
+					  		$('.stats-msg').html('<span class="error">* Please select privacy policy</span>');					  		
+					  }						  
+	                }
+	                // Reset password
+	                else if($(this).text().indexOf('Reset') != -1 ) {
+	                
+	                	toggleWaitModal();
+	                	
+	                	e.preventDefault();
+	                	console.log('reset password btn called 1');
+	                	$.ajaxSetup({  headers: { 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content') }  });
+	                	$.post("/user/password/reset/process",
+						{ email: $('#username').val()},
+					   		function(data, status){
+							console.log('status: '+status);
+							if(status == 'success') {
+								$('#status-msg').html('<strong>* Please check your email for reset password link</strong>');
+								$('#username').val('');
+							} else {
+								$('#status-msg').html('Please try after sometime');
+							}
+							 
+						 toggleWaitModal(); // close wait
+						});
+	                }	  
+	                else if($(this).text().indexOf('Login') != -1 ) {         
+						//openMsgModal('#infoModal' , '#msg-wait-hdr', '#msg-wait-body');
+	                 }  
+	            });  
+	                
+}); // end document
+
+$('.forgot-pass').click(function(event) {
+   $(".pr-wrap").toggleClass("show-pass-reset");
+}); 
+
+$('.pass-reset-submit').click(function(event) {
+  $(".pr-wrap").removeClass("show-pass-reset");
+});
+
+	
+$('.continue').click(function(event) {
+        $.get("/ttt",
+	    		{  },
+	 	   function(data, status){
+	    });
+});	 
+    
+$("#passwordfield").on("keyup",function(){
+	    if($(this).val())
+	        $(".glyphicon-eye-open").show();
+	    else
+	        $(".glyphicon-eye-open").hide();
+});
+	
+	
+$(".glyphicon-eye-open").mousedown(function(){
+          $("#passwordfield").attr('type','text');
+           }).mouseup(function(){
+	            	$("#passwordfield").attr('type','password');
+           }).mouseout(function(){
+          	$("#passwordfield").attr('type','password');
+});
+ 
+ 			 
+$("input[type='text']").keyup(function(e) {
+	console.log('login form');
+    $("#error-msg").html('');
+ 
+  	var email = $.trim( $("input[type='text']").val() );
+ 		if( !validateEmail(email) ) {	    
+	    	 return;
+  	}
+	if(! (email.indexOf('@')!= -1)) {return;}                
+	var btnstatus = $('.register-block').text().indexOf('Register') != '-1' ? true : false;
+	// validate email whether it is exist
+	// $.post("/user/exist",
+// 				{ email : email},
+// 				   function(data, status){
+// 				   var isTrueSet = (data == 'true');
+// 				   
+// 				   if(btnstatus ){
+// 					   	isTrueSet = !isTrueSet;
+// 				   } 
+// 				   
+// 				   if(isTrueSet){
+// 				  		$('span#username-status').html('<span class="glyphicon glyphicon-remove form-control-feedback"></span>');				  		
+// 				   } else {
+// 				  		$('span#username-status').html('<span class="glyphicon glyphicon-ok form-control-feedback"></span>');
+// 				   }
+// 	});
+	
+	
+	//	var data = new FormData();
+//		data.append("email", email ); 
+		var jsonData = { "email" : email};
+		 
+		// $.ajax({  
+// 		  	url: "/user/exist",
+// 	        type: 'POST',
+// 	        async: true,
+// 	        data: JSON.stringify(jsonData),
+// 	        cache: false,
+// 	        dataType: 'json',
+// 	        processData: false, // Don't process the files
+// 	        contentType: 'application/json', // Set content type to false as jQuery will tell the server its a query string request
+// 	        headers: { 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content') },
+// 		 success: function(data, textStatus, jqXHR) {
+// 			console.log('data: ' + data.isExist );
+// 			 var isTrueSet = (data.isExist == 'true');
+// 				   if(btnstatus ){
+// 					   	isTrueSet = !isTrueSet;
+// 				   } 
+// 				   
+// 				   if(data.isExist){
+// 					   	$('#username-status').html('<span class="glyphicon glyphicon-ok form-control-feedback"></span>');
+// 				   } else {
+//   				  		$('#username-status').html('<span class="glyphicon glyphicon-remove form-control-feedback"></span>');				  		
+// 				  		
+// 				   }
+// 		},
+// 		statusCode : {
+// 			404 : function(content) {
+// 				console.log('404 error');
+// 			},
+// 			500 : function(content) {
+// 				console.log('500 error');
+// 			}
+// 		},
+// 		error : function(req, status, errorObj) {
+// 			console.log(status  + '<>' + errorObj );
+// 		}
+// 	});
+	
+	
+});  
+
+
+//$("").click(function(e) {
+$('body').on('click', '#login-register', function() { 
+	console.log('register called');
+	$(".register-block").hide();
+	$(".login").text('Register');
+	$('#go-back').removeClass('hide');
+	$('.regst-plcy').css('display','block');
+});
+ 
+ 
+$('body').on('click', '#reset-password', function() { 
+	console.log('reset password called');
+	$(".register-block").hide();
+	$(".password-block").hide();	
+	$(".login").text('Reset Password');
+	$('#go-back').removeClass('hide');
+	$(".lgn-scl-blk").css('display','none');
+	$(".sv-prfl").css('display','none');	
+
+});
+ 
+
+$('body').on('click', '#go-back', function() { 
+	 	console.log('go-back');
+		$("#error-msg").html('');
+//		$("#form-login").show();
+		$(".register-block").show();
+		$('.login').html("Login");
+		$('span#username-status').html('');
+		$(".password-block").show();
+		$('#username-status').html('');
+		$('#go-back').addClass('hide');		
+		$('.regst-plcy').css('display','none');
+		$(".lgn-scl-blk").css('display','block');
+		$(".sv-prfl").css('display','block');
+		$(".stats-msg").html('');
+	 });
+	
+}); //end function
+$('body').on('click', '#username', function() { 
+	    $('.stats-msg').html('');
+});
+function validateEmail(sEmail) {
+    var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    if (filter.test(sEmail)) {
+        return true;
+    }
+    else {
+        return false;
+	}
+}
+
+console.log = function() {}

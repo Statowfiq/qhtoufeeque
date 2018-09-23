@@ -1,0 +1,338 @@
+$(function() {
+    var names = [];
+     var contents = [];
+     console.log('loading files');
+
+    $('body').on('change', '.picupload', function(event) {
+        var getAttr = $(this).attr('click-type');
+        var files = event.target.files;
+        var output = document.getElementById("media-list");
+        var z = 0
+        if (getAttr == 'type1') {
+
+            $('#media-list').html('');
+            $('#media-list').html('<li class="myupload"><span><i class="fa fa-plus" aria-hidden="true"></i><input type="file" click-type="type2" id="picupload" class="picupload" multiple></span></li>');
+            $('#hint_brand').modal('show');
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                names.push($(this).get(0).files[i].name);
+                if (file.type.match('image')) {
+                    var picReader = new FileReader();
+                    picReader.fileName = file.name
+                    picReader.addEventListener("load", function(event) {
+                        var picFile = event.target;
+                        var div = document.createElement("li");
+
+                        div.innerHTML = "<img src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+
+                        $("#media-list").prepend(div);
+	
+                    });
+                   //console.log( picFile.result );
+                } else {
+
+                    var picReader = new FileReader();
+                    picReader.fileName = file.name
+                    picReader.addEventListener("load", function(event) {
+
+                        var picFile = event.target;
+
+                        var div = document.createElement("li");
+
+                        div.innerHTML = "<video src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'></video><div id='" + z + "'  class='post-thumb'><div  class='inner-post-thumb'><a data-id='" + event.target.fileName + "' href='javascript:void(0);' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+                        $("#media-list").prepend(div);
+					//console.log('picFile.result: ' + picFile.result);
+                    });
+
+                }
+               picReader.readAsDataURL(file);
+              // console.log( picFile.result );
+            }
+//            console.log(names);
+        } else if (getAttr == 'type2') {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                names.push($(this).get(0).files[i].name);
+                if (file.type.match('image')) {
+
+                    var picReader = new FileReader();
+                    picReader.fileName = file.name
+                    picReader.addEventListener("load", function(event) {
+
+                        var picFile = event.target;
+                        var div = document.createElement("li");
+						console.log('picFile.name : ' +picFile.name);
+//						console.log('picFile.result: ' +picFile.result);
+                        div.innerHTML = "<img width=\"50%\" src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+						$('.modal-title').prepend(div.innerHTML);
+			            $("#media-list").prepend(div);
+                        contents.push(picFile.result);
+   					
+                    });
+                } else {
+                    var picReader = new FileReader();
+                    picReader.fileName = file.name
+                    picReader.addEventListener("load", function(event) {
+
+                        var picFile = event.target;
+
+                        var div = document.createElement("li");
+
+                        div.innerHTML = "<video src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'></video><div class='post-thumb'><div  class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+
+                        $("#media-list").prepend(div);
+						console.log('picFile.name : ' +picFile.name);
+						//console.log('picFile.result: ' +picFile.result);
+						contents.push(picFile.result);
+                       
+		            });
+                }
+                
+                $('#conv-file').html('Convert For Free');
+                picReader.readAsDataURL(file);
+
+            }
+            // return array of file name
+            console.log('final filenames: ' + names);
+        }
+
+    });
+
+
+
+$('body').on('click', '.remove-pic', function() {
+		console.log('remove-pic called');
+        $(this).parent().parent().parent().remove();
+        var removeItem = $(this).attr('data-id');
+        var yet = names.indexOf(removeItem);
+
+        if (yet != -1) {
+            names.splice(yet, 1);
+        }
+        // return array of file name
+        console.log('files after deletion: ' +names);
+    });
+    $('#hint_brand').on('hidden.bs.modal', function(e) {
+        names = [];
+        z = 0;
+    });
+    
+
+
+//AJAX JQUERY CALL TO POST QUESTION
+$('#edtr-add-post').click(function() {
+						console.log('add-post yy called x');
+						var id = $('#postEditorModal-pid').text();
+						var btn = $(this).text();
+						var txt = $("#input-search").html();
+						var title = $('#post-title').val();
+						//var desc = $('#myModalLabel').html();
+						//var desc = $('#summernote').summernote('code');
+						var desc = $('.note-editable').html();
+						var type = $.trim($("#edtr-post-type-selected").text());
+						var anon = false;
+						if ($('#anon').is(":checked")) { anon = true;						}
+						if ( title.length < '5') {
+							alert('It is too short to be a post title, please add more ...');
+							return;
+						}
+						
+						//var isValidUser = $('#ivu').text().indexOf('true') != -1 ? true : false;
+						if (!isValidUser()) {
+							return toggleLoginModal();
+						} else {
+							$('#add-post').text('Adding post, please wait...');
+							
+						    console.log('id:' + id);
+						    console.log('title:' + title);
+						    console.log('description:' + desc);
+						    console.log('status:' + status);
+							 var jsonData = { "status":"open", "title": title, "description":desc, "type":type , "source": "queshub", "isAnonymous":anon, "creationTime" : $.now() };
+
+							 $('#edtr-cancel').hide();
+							 $('#edtr-save-post').hide();
+							 $('#edtr-add-post').text('Adding post, please wait...');
+							$.ajax({
+							        url: '/post/addorupdate',
+							        type: 'POST',
+							        async: true,
+  							        data: JSON.stringify(jsonData),
+							        cache: false,
+							        dataType: 'json',
+							        processData: false, // Don't process the files
+							        contentType: 'application/json', // Set content type to false as jQuery will tell the server its a query string request
+							        headers: { 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content') },
+							        success: function(data, textStatus, jqXHR)
+							        {
+							       		console.log('data' + data);
+							       		showClosableAlertMessage(data.message);
+							       												 
+								        $('.search-result-lst').html('');
+										$("#input-search").html('');
+										$('#myModalLabel').html('');
+										$('.modal-pst-status').css("display","block");
+										$('#post-dtl-hnt').html('');
+										$('.edit-post').data('pu-desc', '');
+										$('.note-editable').html('');
+										$('#post-title').html('');
+										addEditPostModalToggle('#addEditPostModel');
+										  // show alert message
+										 // increase count
+								 
+										$('#area-post').html( +($('#area-post').text()) +1 );
+							        },
+							        error: function(jqXHR, textStatus, errorThrown)
+							        {
+							            console.log(errorThrown);
+							            $('#edtr-add-post').text('Error, Try again later..');
+							        }
+						});		
+					}
+});
+
+
+//AJAX JQUERY to convert file
+$('#conv-file').click(function() {
+							//console.log('conv-file x inside: ' + contents);
+							var cnvto = $('#cnvto :selected').text();
+							
+							if(contents.length < 1) { return;}
+							
+							if (!isValidUser()) {
+								return toggleLoginModal();
+							} else {
+									var data = new FormData();
+									data.append("desc", contents); 
+									data.append("cnvto", cnvto);
+									//console.log('data: ' + data);
+									$('#conv-file').text('Converting file...');
+			
+									$.ajax({
+									        url: '/file/media/convert',
+									        type: 'POST',
+									        data: data,
+									       // cache: false,
+									        dataType: 'text',
+									        processData: false, // Don't process the files
+									        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+									        headers: { 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content') },
+									        success: function(data, textStatus, jqXHR)
+									        {
+										       //console.log('data: ' + data);
+										       $('#conv-file').html("<a target='_blank' href='/medias/processed/" +  data + "'>Download Now </a>");										       	
+												var div = document.createElement("li");
+												div.className = "myupload";
+												var html = $('#media-list > .myupload').html();
+					            				div.innerHTML = html;
+					            				
+					            				$('#media-list').html('');
+					            				console.log('html: ' + html);
+					            				
+		        							     $("#media-list").prepend(div);
+		        							     
+		        							     contents.splice(0,contents.length); // clear contents array
+									        },
+									        error: function(jqXHR, textStatus, errorThrown)
+									        {
+									        	console.log('error');
+									        	$('#conv-file').text('Failed, try again');
+									            // Handle errors here
+									            //console.log('ERRORS cc: ' + textStatus);
+									            // STOP LOADING SPINNER
+									            //$('#btn-search-add').text('Error, Try again later..');
+									        }
+								});		
+// 					  
+							}
+ });
+		 
+// $.fn.extend({
+//     insertAtCaret: function(myValue) {
+//         if (document.selection) {
+//                 this.focus();
+//                 sel = document.selection.createRange();
+//                 sel.text = myValue;
+//                 this.focus();
+//         }
+//         else if (this.selectionStart || this.selectionStart == '0') {
+//             var startPos = this.selectionStart;
+//             var endPos = this.selectionEnd;
+//             var scrollTop = this.scrollTop;
+//             this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+//             this.focus();
+//             this.selectionStart = startPos + myValue.length;
+//             this.selectionEnd = startPos + myValue.length;
+//             this.scrollTop = scrollTop;
+//         } else {
+//             this.value += myValue;
+//             this.focus();
+//         }
+//     }
+// })
+
+ 
+    function insertData(myValue) {
+        if (document.selection) {
+                this.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                this.focus();
+        }
+        else if (this.selectionStart || this.selectionStart == '0') {
+            var startPos = this.selectionStart;
+            var endPos = this.selectionEnd;
+            var scrollTop = this.scrollTop;
+            this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+            this.focus();
+            this.selectionStart = startPos + myValue.length;
+            this.selectionEnd = startPos + myValue.length;
+            this.scrollTop = scrollTop;
+        } else {
+            this.value += myValue;
+            this.focus();
+        }
+    }
+ 
+
+// function getCaret(el) { 
+//   if (el.selectionStart) { 
+//     return el.selectionStart; 
+//   } else if (document.selection) { 
+//     el.focus(); 
+// 
+//     var r = document.selection.createRange(); 
+//     if (r == null) { 
+//       return 0; 
+//     } 
+// 
+//     var re = el.createTextRange(), 
+//         rc = re.duplicate(); 
+//     re.moveToBookmark(r.getBookmark()); 
+//     rc.setEndPoint('EndToStart', re); 
+// 
+//     return rc.text.length; 
+//   }  
+//   return 0; 
+// }
+
+
+}); // end function()
+
+// function showClosableAlertMessage(data) {
+// 		$('#cl-message-alert').css('visibility','visible');
+// 		$('#cl-message-alert').html(data);
+// 		$('.alert').fadeIn();
+// 		setTimeout(function(){
+// 			  $('.alert').fadeOut()
+// 		}, 10000); 	
+// }
+// Open Login Modal if user is not logged in
+//function openLoginModal() {
+//	console.log('login model called');
+//	$('#loginModal').modal('toggle');
+//}// openLoginModal

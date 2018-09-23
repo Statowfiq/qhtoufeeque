@@ -1,0 +1,14 @@
+1.align checkbox in register page  --done
+2.Removed the bullets in "Konw about queshub" - left aligned   --done
+3.email field in reset password - curve      --- done
+4.save my profile - center or left         ---done
+5.main div - center                        --done
+6. cs class - .avatar - remove border    --done
+7. ipad pro- social login buttpn alignment   -- done
+8. top5 participnts - align in same line   --done
+
+
+1.field focus color  --- done
+2. loading model fix  -- done
+
+
