@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>POLL</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rexl="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .trendingNews{
+            font-weight: bold;
+        }
+        .newsheading{
+            color: #314196;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-sm-offset-8">
+                <div class="trendingNews">
+                    TRENDING
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        1
+                    </div>
+                    <div class="col-sm-9 newsheading">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam asperiores sequi iusto fugiat,
+                    </div>
+                    <div class="col-sm-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_the_United_States_%281877-1890%29.svg"
+                            height="50" width="50" />
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+        </div>
+    </div> -->
+
+
+    <!-- #set( $flag = "false" ) -->
+
+
+
+    <div id="pl-conv" class="panel panel-info">
+
+        <div class="panel-heading">
+
+            <span id="arw-rp" class=" clickable">
+
+                <div class="panel-title" style="width:45%; float:left;margin-top:6px;" title="News posted with in an hour">
+
+                    <h3 id="arw-rp" class="panel-title"><strong>Instant News </strong></h3>
+
+                </div>
+
+
+
+            </span>
+
+            <div class="nav">
+
+
+
+                <div class="input-group-btn search-panel">
+
+                    <button type="button" class="btn btn-news dropdown-toggle pull-right" data-toggle="dropdown" style="padding: 2px;">
+                        <span id="news-type">United States</span> <span class="caret"></span>
+
+                    </button>
+
+                    <ul class="dropdown-menu dd-news-type" role="menu" style="margin: 12px 42px;">
+
+                        <li id="us" class="pad-5px">United States</li>
+
+                        <li id="ca" class="pad-5px">Canada</li>
+
+                        <li id="uk" class="pad-5px">United Kingdom</li>
+
+                        <li id="in" class="pad-5px">India</li>
+
+                    </ul>
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="tab-content news-contents">
+
+
+
+                <!-- #foreach($content in $contents)
+
+
+
+                #if ($velocityCount == 5) -->
+
+                <!-- #set( $flag = "true" )  -->
+                <a class="read-more-show hide" href="#"><span class="glyphicon glyphicon-chevron-down"></span>
+                    Show More</a>
+
+                <div class="read-more-content">
+
+                    <!-- #end -->
+
+                    <div style="padding: 10px 0px 10px 0px; clear: both;">
+
+                        <div width="30%" style="float:left; padding: 8px 6px;">
+
+                            <img width="60px" height="60px" src="$content.thumbnail">
+
+                        </div>
+
+                        <div style="">
+
+                            <div class="header">
+
+                                <small class="text-muted"><span class="glyphicon glyphicon-time"></span
+                                    >
+                                    <!--    &nbsp;$content.creationTimeLevelOneAgo</small> -->
+
+                                <small class="pull-right text-muted">$content.sourceName</small>
+
+                            </div>
+
+
+
+                            <a href="$content.url" class="newline" target="_blank"><strong>$content.title</strong></a>
+
+                        </div>
+
+                    </div>
+
+
+<!-- 
+                    #end
+
+
+
+                    #if ($flag == "true") -->
+
+                    <a class="read-more-hide hide" href="#"><span class="glyphicon glyphicon-chevron-up"></span> Show
+                        Less</a>
+
+                </div>
+
+                <!-- #end -->
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+    <script>
+
+        $('.read-more-content').addClass('hide')
+
+        $('.read-more-show, .read-more-hide').removeClass('hide')
+
+
+
+        // Set up the toggle effect: 
+
+        $('.read-more-show').on('click', function (e) {
+
+            $(this).next('.read-more-content').removeClass('hide');
+
+            $(this).addClass('hide');
+
+            e.preventDefault();
+
+        });
+
+
+
+        // Changes contributed by @diego-rzg 
+
+        $('.read-more-hide').on('click', function (e) {
+
+            var p = $(this).parent('.read-more-content');
+
+            p.addClass('hide');
+
+            p.prev('.read-more-show').removeClass('hide'); // Hide only the preceding "Show More" 
+
+            e.preventDefault();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
